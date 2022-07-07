@@ -34,10 +34,13 @@ namespace Cppeddit {
 
 			Json::Value data;
 			m_reader.parse(r.text, data);
-			m_current_token = std::unique_ptr<Token>(Token::from_json(std::move(data)));
+			BaseAuthoriser::load_token(std::move(data));
 
-			std::cout << "Token received " << m_current_token->get_name() << " Valid until: "
-				<< m_current_token->get_expiration_date() << std::endl;
+			//The creation of token may fail
+			if (m_current_token) {
+				std::cout << "Token received " << m_current_token->get_name() << " Valid until: "
+					<< m_current_token->get_expiration_date() << std::endl;
+			}
 		}
 	}
 
@@ -51,10 +54,13 @@ namespace Cppeddit {
 
 			Json::Value data;
 			m_reader.parse(r.text, data);
-			m_current_token = std::unique_ptr<Token>(Token::from_json(std::move(data)));
+			BaseAuthoriser::load_token(std::move(data));
 
-			std::cout << "Token refreshed " << m_current_token->get_name() << " Valid until: "
-				<< m_current_token->get_expiration_date() << std::endl;
+			//The creation of token may fail
+			if (m_current_token) {
+				std::cout << "Token refreshed " << m_current_token->get_name() << " Valid until: "
+					<< m_current_token->get_expiration_date() << std::endl;
+			}
 		}
 	}
 

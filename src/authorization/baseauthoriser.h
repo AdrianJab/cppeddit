@@ -2,6 +2,8 @@
 #include "credidentials.h"
 #include "token.h"
 
+#include <jsoncpp/json/json.h>
+
 #include <memory>
 
 namespace Cppeddit {
@@ -22,6 +24,8 @@ namespace Cppeddit {
 		virtual void request_token() = 0;
 		virtual void refresh_token() = 0;
 		virtual void revoke_token() = 0;
+
+		void load_token(Json::Value&& token_data);
 
 		std::unique_ptr<Token> m_current_token;
 
