@@ -11,8 +11,7 @@ namespace Cppeddit {
 	using Clock = std::chrono::system_clock;
 	using Seconds = std::chrono::seconds;
 
-	template<class Duration>
-	using TimePoint = std::chrono::time_point<Clock, Duration>;
+	using TimePoint = std::chrono::time_point<Clock>;
 
 	class bad_token_data : public std::exception {
 	public:
@@ -29,11 +28,11 @@ namespace Cppeddit {
 
 		static Token* from_json(Json::Value&& json);
 	private:
-		Token(const std::string& id, int seconds, const std::string& scope = "", const std::string& type = "");
+		Token(const std::string& id, int sec, const std::string& scope = "", const std::string& type = "");
 
 		std::string m_access_token;
-		TimePoint<Seconds> m_start_date;
-		TimePoint<Seconds> m_end_date;
+		TimePoint m_start_date;
+		TimePoint m_end_date;
 		int m_expires_seconds;
 		std::string m_scope;
 		std::string m_token_type;

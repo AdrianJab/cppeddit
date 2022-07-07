@@ -1,6 +1,7 @@
 #include "token.h";
 
 #include <iostream>
+#include <iomanip>
 
 namespace Cppeddit {
 	std::string Token::get_name() const {
@@ -10,8 +11,9 @@ namespace Cppeddit {
 	std::string Token::get_expiration_date() const
 	{
 		auto tt = Clock::to_time_t(m_end_date);
+		auto tm = *std::localtime(&tt);
 		std::stringstream ss;
-		ss << std::localtime(&tt);
+		ss << std::put_time(&tm, "%d.%m.%y %H:%M:%S");
 		return ss.str();
 	}
 
@@ -36,13 +38,14 @@ namespace Cppeddit {
 		return new Token(token, seconds, scope, bearer);
 	}
 
-	Token::Token(const std::string& id, int seconds, const std::string& scope, const std::string& type)
+	Token::Token(const std::string& id, int sec, const std::string& scope, const std::string& type)
 		: m_access_token(id),
-		m_expires_seconds(seconds),
+		m_expires_seconds(sec),
 		m_scope(scope),
 		m_token_type(type)
 	{
-		m_end_date = m_start_date + Seconds{ seconds };
+		m_start_date = TimePoint{ Clock::now() };
+		m_end_date = m_start_date + Seconds{ sec };
 	}
 
 	bad_token_data::bad_token_data(const Json::Value& bad_json)
