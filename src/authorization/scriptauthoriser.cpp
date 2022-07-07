@@ -90,7 +90,7 @@ namespace Cppeddit {
 			headers
 		);
 
-		std::cout << "Received response from " << REDDIT_TOKEN_ACCESS << ", status code: "
+		std::cout << "Received access response from " << REDDIT_TOKEN_ACCESS << ", status code: "
 			<< r.status_code << ", payload: " << r.text << std::endl;
 
 		return r;

@@ -6,7 +6,7 @@ cmake_minimum_required (VERSION 3.8)
 project ("Cppeddit")
 
 # Add source to this project's executable.
-add_executable (Cppeddit "Cppeddit.cpp" "Cppeddit.h" "src/authorization/credidentials.cpp")
+add_executable (Cppeddit "Cppeddit.cpp" "Cppeddit.h")
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -24,7 +24,8 @@ target_include_directories(Cppeddit PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_link_libraries(Cppeddit PRIVATE cpr::cpr)
 target_sources(Cppeddit PRIVATE
 "src/jsoncpp/jsoncpp.cpp"
-"src/Token.cpp"
+"src/authorization/token.cpp"
 "src/authorization/baseauthoriser.cpp"
 "src/authorization/scriptauthoriser.cpp"
-)
+"src/authorization/credidentials.cpp"
+ "src/client/client.cpp")
