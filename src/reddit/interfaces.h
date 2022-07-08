@@ -6,25 +6,24 @@
 
 namespace Cppeddit {
 	namespace Interfaces {
-		using namespace std;
 		struct Thing {
-			string id;
-			string name;
-			string kind;
+			std::string id;
+			std::string name;
+			std::string kind;
 			Json::Value data;
 		};
 
 		struct Listing {
-			string before;
-			string after;
-			string modhash;
-			vector<Thing> children;
+			std::string before;
+			std::string after;
+			std::string modhash;
+			std::vector<Thing> children;
 		};
 
 		struct Votable : public Thing {
 			int ups;
 			int downs;
-			optional<bool> likes;
+			std::optional<bool> likes;
 		};
 
 		struct Created : public Thing {
