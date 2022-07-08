@@ -26,7 +26,7 @@ namespace Cppeddit {
 		return !is_valid();
 	}
 
-	Token* Token::from_json(Json::Value&& json) {
+	std::unique_ptr<Token> Token::from_json(Json::Value&& json) {
 		std::string token = json.get("access_token", "").asString();
 		int seconds = json.get("expires_in", 0).asInt();
 		std::string scope = json.get("scope", "").asString();
@@ -35,7 +35,7 @@ namespace Cppeddit {
 		if (token.empty() || seconds == 0)
 			throw bad_token_data(json);
 
-		return new Token(token, seconds, scope, bearer);
+		return std::unique_ptr<Token>(new Token(token, seconds, scope, bearer));
 	}
 
 	Token::Token(const std::string& id, int sec, const std::string& scope, const std::string& type)

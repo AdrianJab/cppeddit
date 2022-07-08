@@ -2,6 +2,7 @@
 #include <chrono>
 #include <ctime>
 #include <string>
+#include <memory>
 #include <jsoncpp/json/json.h>
 
 namespace Cppeddit {
@@ -26,7 +27,7 @@ namespace Cppeddit {
 		bool is_valid() const;
 		bool expired() const;
 
-		static Token* from_json(Json::Value&& json);
+		static std::unique_ptr<Token> from_json(Json::Value&& json);
 	private:
 		Token(const std::string& id, int sec, const std::string& scope = "", const std::string& type = "");
 
