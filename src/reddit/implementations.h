@@ -1,7 +1,7 @@
 #pragma once
 namespace Cppeddit {
 
-	namespace DTO {
+	namespace Implementations {
 		struct Subreddit {
 
 		}

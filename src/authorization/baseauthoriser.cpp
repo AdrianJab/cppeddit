@@ -21,7 +21,7 @@ namespace Cppeddit {
 	{
 		try
 		{
-			m_current_token = std::unique_ptr<Token>(Token::from_json(std::move(token_data)));
+			m_current_token = Token::from_json(std::move(token_data));
 		}
 		catch (const bad_token_data& e)
 		{

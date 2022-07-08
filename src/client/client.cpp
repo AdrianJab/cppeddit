@@ -34,4 +34,9 @@ namespace Cppeddit {
 		m_authoriser->authorise();
 	}
 
+	void Client::subreddit(const std::string& name)
+	{
+
+	}
+
 }

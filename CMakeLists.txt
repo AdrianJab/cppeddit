@@ -20,12 +20,18 @@ FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
                          GIT_TAG db351ffbbadc6c4e9239daaa26e9aefa9f0ec82d) # The commit hash for 1.8.2. Replace with the latest from: https://github.com/libcpr/cpr/releases
 FetchContent_MakeAvailable(cpr)
 
+# include whole /src structure
 target_include_directories(Cppeddit PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+
+# link cpr
 target_link_libraries(Cppeddit PRIVATE cpr::cpr)
+
+
 target_sources(Cppeddit PRIVATE
-"src/jsoncpp/jsoncpp.cpp"
-"src/authorization/token.cpp"
-"src/authorization/baseauthoriser.cpp"
-"src/authorization/scriptauthoriser.cpp"
-"src/authorization/credidentials.cpp"
- "src/client/client.cpp")
+    "src/jsoncpp/jsoncpp.cpp"
+    "src/authorization/token.cpp"
+    "src/authorization/baseauthoriser.cpp"
+    "src/authorization/scriptauthoriser.cpp"
+    "src/authorization/credidentials.cpp"
+    "src/client/client.cpp"
+    "src/requests/baserequester.cpp")

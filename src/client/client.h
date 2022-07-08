@@ -21,6 +21,8 @@ namespace Cppeddit {
 			const std::string& password,
 			const std::string& user_agent
 		);
+
+		void subreddit(const std::string& name);
 	private:
 		std::unique_ptr<BaseAuthoriser> m_authoriser;
 	};
