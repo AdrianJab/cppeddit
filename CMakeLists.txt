@@ -1,14 +1,15 @@
 ﻿# CMakeList.txt : CMake project for Cppeddit, include source and define
 # project specific logic here.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.10)
 
 project ("Cppeddit")
 
 # Add source to this project's executable.
 add_executable (Cppeddit "Cppeddit.cpp" "Cppeddit.h")
 
-set(CMAKE_CXX_STANDARD 11)
+set_property(TARGET Cppeddit PROPERTY CXX_STANDARD 17)
+set_property(TARGET Cppeddit PROPERTY CXX_STANDARD_REQUIRED ON)
 
 if(WIN32) # Install dlls in the same directory as the executable on Windows
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
