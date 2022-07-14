@@ -2,6 +2,7 @@
 
 #include "authorization/credidentials.h"
 #include "authorization/scriptauthoriser.h"
+#include "requests/subreddit.h"
 
 namespace Cppeddit {
 	Client::Client(
@@ -24,7 +25,7 @@ namespace Cppeddit {
 			//Todo
 			break;
 		case Cppeddit::AppType::Script:
-			m_authoriser = std::make_unique<ScriptAuthoriser>(client, user, user_agent);
+			m_authoriser = std::make_shared<ScriptAuthoriser>(client, user, user_agent);
 			break;
 		default:
 			break;
@@ -32,11 +33,20 @@ namespace Cppeddit {
 
 		//Getting the authorisation token from reddit API
 		m_authoriser->authorise();
+
+		m_subreddits = std::make_unique<Requesters::Subreddit>(
+				m_authoriser,
+				client,
+				user,
+				user_agent);
+
+		subreddit("funny_animals");
 	}
 
 	void Client::subreddit(const std::string& name)
 	{
-
+		using Posts = Implementations::Subreddit::Listings;
+		m_subreddits->request_listing(Posts::Hot);
 	}
 
 }

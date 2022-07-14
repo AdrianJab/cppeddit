@@ -13,7 +13,7 @@ namespace Cppeddit {
 		ScriptAuthoriser(const Credidentials& client_data, const Credidentials& user_data, const std::string& user_agent);
 
 		// Inherited via BaseAuthoriser
-		virtual void authorise() override;
+		virtual std::string authorise() override;
 	private:
 		virtual void request_token() override;
 		virtual void refresh_token() override;

@@ -10,18 +10,16 @@ namespace Cppeddit {
 	{
 	}
 
-	void ScriptAuthoriser::authorise()
+	std::string ScriptAuthoriser::authorise()
 	{
 		//we need to get new token only if the onle one expired
 		//or we haven't got one yet
 		if (!m_current_token) {
 			request_token();
-			return;
-		}
-
-		if (!m_current_token->is_valid()) {
+		} else if (!m_current_token->is_valid()) {
 			refresh_token();
 		}
+		return m_current_token->get_name();
 	}
 
 	void ScriptAuthoriser::request_token()

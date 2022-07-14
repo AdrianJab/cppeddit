@@ -35,4 +35,4 @@ target_sources(Cppeddit PRIVATE
     "src/authorization/scriptauthoriser.cpp"
     "src/authorization/credidentials.cpp"
     "src/client/client.cpp"
-    "src/requests/baserequester.cpp")
+    "src/requests/baserequester.cpp" "src/requests/subreddit.cpp")

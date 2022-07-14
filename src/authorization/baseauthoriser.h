@@ -10,7 +10,7 @@ namespace Cppeddit {
 
 	class BaseAuthoriser {
 	public:
-		virtual void authorise() = 0;
+		virtual std::string authorise() = 0;
 		bool active() const;
 
 		//no copying

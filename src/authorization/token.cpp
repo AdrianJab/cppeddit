@@ -18,7 +18,7 @@ namespace Cppeddit {
 	}
 
 	bool Token::is_valid() const {
-		return Clock::now() > m_end_date;
+		return Clock::now() < m_end_date;
 	}
 
 	bool Token::expired() const

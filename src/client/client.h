@@ -1,5 +1,6 @@
 #pragma once
 #include "authorization/baseauthoriser.h"
+#include "requests/subreddit.h"
 
 #include <memory>
 #include <string>
@@ -24,6 +25,8 @@ namespace Cppeddit {
 
 		void subreddit(const std::string& name);
 	private:
-		std::unique_ptr<BaseAuthoriser> m_authoriser;
+		std::shared_ptr<BaseAuthoriser> m_authoriser;
+		//Don't need polymorphism here
+		std::unique_ptr<Requesters::Subreddit> m_subreddits;
 	};
 }
