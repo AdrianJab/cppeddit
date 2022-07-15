@@ -1,4 +1,4 @@
-﻿# CMakeList.txt : CMake project for Cppeddit, include source and define
+# CMakeList.txt : CMake project for Cppeddit, include source and define
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.10)
@@ -26,6 +26,10 @@ target_include_directories(Cppeddit PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 # link cpr
 target_link_libraries(Cppeddit PRIVATE cpr::cpr)
+
+# copy secrets
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/secrets
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 
 target_sources(Cppeddit PRIVATE
