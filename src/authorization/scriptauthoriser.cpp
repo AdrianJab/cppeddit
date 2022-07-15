@@ -19,7 +19,8 @@ namespace Cppeddit {
 		} else if (!m_current_token->is_valid()) {
 			refresh_token();
 		}
-		return m_current_token->get_name();
+
+		return m_current_token ? m_current_token->get_name() : "";
 	}
 
 	void ScriptAuthoriser::request_token()
@@ -40,6 +41,9 @@ namespace Cppeddit {
 					<< m_current_token->get_expiration_date() << std::endl;
 			}
 		}
+		else {
+			std::cout << "Authorisation failed. Status code: " << r.status_code << " payload: " << r.text << std::endl;
+		}
 	}
 
 	void ScriptAuthoriser::refresh_token()
@@ -59,6 +63,9 @@ namespace Cppeddit {
 				std::cout << "Token refreshed " << m_current_token->get_name() << " Valid until: "
 					<< m_current_token->get_expiration_date() << std::endl;
 			}
+		}
+		else {
+			std::cout << "Token refresh failed. Status code: " << r.status_code << " payload: " << r.text << std::endl;
 		}
 	}
 
