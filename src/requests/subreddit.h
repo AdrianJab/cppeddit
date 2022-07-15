@@ -1,7 +1,9 @@
 #pragma once
 
 #include "baserequester.h"
+
 #include "reddit/implementations.h"
+#include "reddit/interfaces.h"
 
 #include <cpr/cpr.h>
 

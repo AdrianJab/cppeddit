@@ -1,5 +1,8 @@
 #include "subreddit.h"
 #include "globals.h"
+
+#include "reddit/deserialiser.h"
+
 #include <iostream>
 
 namespace Cppeddit {
@@ -13,7 +16,9 @@ namespace Cppeddit {
 		{
 			auto data = send_request(m_authoriser->authorise()).text;
 
-			return Interfaces::Listing();
+			auto t = Deserialisation::make_listing(data);
+
+			return t;
 		}
 
 		cpr::Response Subreddit::send_request(const std::string&& token)

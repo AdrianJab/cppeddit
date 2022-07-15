@@ -1,4 +1,4 @@
-# CMakeList.txt : CMake project for Cppeddit, include source and define
+﻿# CMakeList.txt : CMake project for Cppeddit, include source and define
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.10)
@@ -39,4 +39,4 @@ target_sources(Cppeddit PRIVATE
     "src/authorization/scriptauthoriser.cpp"
     "src/authorization/credidentials.cpp"
     "src/client/client.cpp"
-    "src/requests/baserequester.cpp" "src/requests/subreddit.cpp")
+    "src/requests/baserequester.cpp" "src/requests/subreddit.cpp" "src/reddit/deserialiser.cpp" "src/reddit/interfaces.cpp")
