@@ -2,16 +2,21 @@
 
 namespace Cppeddit {
 	namespace Deserialisation {
-		Interfaces::Thing make_thing(const std::string& json)
-		{
-			Json::Reader reader;
-			Json::Value root;
-			reader.parse(json, root);
+		//Interfaces::Thing make_thing(const std::string& json)
+		//{
+		//	Json::Reader reader;
+		//	Json::Value root;
+		//	reader.parse(json, root);
 
-			auto t = Interfaces::Thing::create(root["kind"].asString(), root);
+		//	auto kind = root["kind"].asString();
+		//	Interfaces::Thing* thing;
 
-			return t;
-		}
+		//	//TODO make better maping kind <-> string with name
+		//	if (kind == "t3")
+		//		thing = &Interfaces::Post::create(root);
+
+		//	return *thing;
+		//}
 		Interfaces::Listing make_listing(const std::string& json)
 		{
 			Json::Reader reader;
