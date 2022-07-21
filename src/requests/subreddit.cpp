@@ -12,13 +12,11 @@ namespace Cppeddit {
 		{
 		}
 
-		Interfaces::Listing Subreddit::request_listing(Implementations::Subreddit::Listings type)
+		std::unique_ptr<Interfaces::Listing> Subreddit::request_listing(Implementations::Subreddit::Listings type)
 		{
 			auto data = send_request(m_authoriser->authorise()).text;
 
-			auto t = Deserialisation::make_listing(data);
-
-			return t;
+			return Deserialisation::make_listing(data);
 		}
 
 		cpr::Response Subreddit::send_request(const std::string&& token)

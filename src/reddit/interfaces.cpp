@@ -1,27 +1,36 @@
 #include "interfaces.h"
 
 #include <iostream>
+#include <vector>
 
 namespace Cppeddit {
 	namespace Interfaces {
-		Listing Listing::create(const Json::Value& data)
+		std::unique_ptr<Listing> Listing::create(const Json::Value& data)
 		{
-			std::vector<Post> posts;
+			std::vector<std::unique_ptr<Thing>> posts;
 			for (auto child : data["children"]) {
 				std::cout << "Listing has child thing object of kind " << child["kind"].asString()
 					<< " and data: " << child["data"] << std::endl;
 
 				//Todo Check kind of child object and then instantiate correct object into list
 
-				posts.push_back(Post::create(child["data"]));
+				posts.emplace_back(std::move(Post::create(child["data"])));
 				break;
 			}
-			return Listing{ data["before"].asString(), data["after"].asString(), data["modhash"].asString(), posts };
+			return std::make_unique<Listing>(data["before"].asString(), data["after"].asString(), data["modhash"].asString(), std::move(posts));
 		}
 
-		Post Post::create(const Json::Value& data)
+		Listing::Listing(const std::string& before, const std::string& after, const std::string& modhash, std::vector<std::unique_ptr<Thing>> children)
+			: before(before),
+			after(after),
+			modhash(modhash),
+			children(std::move(children))
 		{
-			return { data };
+		}
+
+		std::unique_ptr<Post> Post::create(const Json::Value& data)
+		{
+			return std::unique_ptr<Post>(new Post(data));
 		}
 
 		Thing::Thing(const const Json::Value& input_data) :
@@ -54,7 +63,8 @@ namespace Cppeddit {
 			created_utc{ input_data["created_utc"].asLargestInt() }
 		{
 		}
-		Post::Post(const const Json::Value& input_data) :
+
+		Post::Post(const Json::Value& input_data) :
 			Thing{input_data},
 			Votable{input_data},
 			Created{input_data}

@@ -16,19 +16,22 @@ namespace Cppeddit {
 			std::string kind;
 			Json::Value data;
 
+			virtual ~Thing() = default;
+
 		protected:
-			Thing(const const Json::Value& input_data);
+			Thing(const Json::Value& input_data);
 		};
 
 		struct Listing {
 			std::string before;
 			std::string after;
 			std::string modhash;
-			//TODO In order to use polymorphism, we need to store unique_ptr<Thing> not Post
-			std::vector<Post> children;
+			std::vector<std::unique_ptr<Thing>> children;
 
 			//Since we know the type is Listing we don't have to read kind
-			static Listing create(const Json::Value& data);
+			static std::unique_ptr<Listing> create(const Json::Value& data);
+
+			Listing(const std::string& before, const std::string& after, const std::string& modhash, std::vector<std::unique_ptr<Thing>> children);
 		};
 
 		struct Votable : virtual Thing {
@@ -36,16 +39,20 @@ namespace Cppeddit {
 			int downs;
 			std::optional<bool> likes;
 
+			virtual ~Votable() = default;
+
 		protected:
-			Votable(const const Json::Value& input_data);
+			Votable(const Json::Value& input_data);
 		};
 
 		struct Created : virtual Thing {
 			long long created;
 			long long created_utc;
 
+			virtual ~Created() = default;
+
 		protected:
-			Created(const const Json::Value& input_data);
+			Created(const Json::Value& input_data);
 		};
 
 		//also called link in documentation
@@ -57,10 +64,10 @@ namespace Cppeddit {
 				Video
 			};
 
-			static Post create(const Json::Value& data);
+			static std::unique_ptr<Post> create(const Json::Value& data);
 
 		private:
-			Post(const const Json::Value& input_data);
+			Post(const Json::Value& input_data);
 		};
 	}
 }

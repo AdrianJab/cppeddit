@@ -17,15 +17,13 @@ namespace Cppeddit {
 
 		//	return *thing;
 		//}
-		Interfaces::Listing make_listing(const std::string& json)
+		std::unique_ptr<Interfaces::Listing> make_listing(const std::string& json)
 		{
 			Json::Reader reader;
 			Json::Value root;
 			reader.parse(json, root);
 
-			auto l = Interfaces::Listing::create(root["data"]);
-
-			return l;
+			return Interfaces::Listing::create(root["data"]);
 		}
 	}
 }

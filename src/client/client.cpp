@@ -46,7 +46,7 @@ namespace Cppeddit {
 	void Client::subreddit(const std::string& name)
 	{
 		using Posts = Implementations::Subreddit::Listings;
-		m_subreddits->request_listing(Posts::Hot);
+		auto listing = m_subreddits->request_listing(Posts::Hot);
 	}
 
 }
