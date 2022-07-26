@@ -11,7 +11,8 @@ namespace Cppeddit {
 		struct RequestData {
 			enum Type {
 				Get,
-				Put
+				Put,
+				Post
 			};
 
 			Type type;
@@ -24,15 +25,12 @@ namespace Cppeddit {
 		public:
 			Client(const std::string& address);
 
-			void send(const RequestData& request);
-
-			void register_success_callback(std::function<void(const std::string&)> c);
-			void register_failure_callback(std::function<void(const std::string&)> c);
+			bool send(const RequestData& request);
+			bool send(const RequestData& request, std::function<void(const std::string&)> callback);
 		private:
-			void handle_response(const cpr::Response& resp);
+			bool handle_response(const cpr::Response& resp);
+			cpr::Response get_response(const RequestData& request);
 
-			std::vector<std::function<void(const std::string&)>> m_success_callbacks;
-			std::vector<std::function<void(const std::string&)>> m_failure_callbacks;
 			const std::string& m_address;
 		};
 	}

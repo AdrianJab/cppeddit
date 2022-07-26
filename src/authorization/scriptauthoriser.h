@@ -1,5 +1,6 @@
 #include "baseauthoriser.h"
 #include "credidentials.h"
+#include "client/rest/restclient.h"
 
 #include <jsoncpp/json/json.h>
 #include <cpr/cpr.h>
@@ -19,12 +20,15 @@ namespace Cppeddit {
 		virtual void refresh_token() override;
 		virtual void revoke_token() override;
 
-		cpr::Response send_request(const std::string& grant_type);
-		cpr::Response send_revoke_request();
+		void generate_token(const std::string& payload);
+
+		Rest::RequestData make_request(const cpr::Payload& payload) const;
 
 		Json::Reader m_reader;
 
 		std::string m_last_token_type;
+
+		Rest::Client m_client;
 	};
 
 }

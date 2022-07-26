@@ -7,7 +7,38 @@ namespace Cppeddit {
 		Client::Client(const std::string& address) : m_address(address)
 		{
 		}
-		void Client::send(const RequestData& request)
+
+		bool Client::send(const RequestData& request)
+		{
+			auto resp = get_response(request);
+			return handle_response(resp);
+		}
+
+		bool Client::send(const RequestData& request, std::function<void(const std::string&)> callback)
+		{
+			auto resp = get_response(request);
+			auto ok = handle_response(resp);
+			if (ok) callback(resp.text);
+			return ok;
+		}
+
+		bool Client::handle_response(const cpr::Response& resp)
+		{
+			if (resp.status_code != 200) {
+				std::cout << "Received bad rest code from " << m_address << " code: " << resp.status_code
+					<< " reason: " << resp.reason;
+				return false;
+			}
+
+			if (resp.error) {
+				std::cout << "Received error from " << m_address << "error: " << resp.error.message << "(" << static_cast<int>(resp.error.code) << ")"
+					<< std::endl;
+				return false;
+			}
+
+			return true;
+		}
+		cpr::Response Client::get_response(const RequestData& request)
 		{
 			cpr::Response resp;
 			switch (request.type)
@@ -26,42 +57,17 @@ namespace Cppeddit {
 					request.headers,
 					request.payload);
 				break;
+			case RequestData::Type::Post:
+				resp = cpr::Post(
+					cpr::Url{ m_address },
+					request.authentication,
+					request.headers,
+					request.payload);
+				break;
 			default:
 				break;
 			}
-			handle_response(resp);
-		}
-		void Client::register_success_callback(std::function<void(const std::string&)> c)
-		{
-			m_success_callbacks.push_back(c);
-		}
-		void Client::register_failure_callback(std::function<void(const std::string&)> c)
-		{
-			m_failure_callbacks.push_back(c);
-		}
-		void Client::handle_response(const cpr::Response& resp)
-		{
-			//TODO implement
-			auto invoked_container = m_success_callbacks;
-
-			if (resp.status_code != 200) {
-				invoked_container = m_failure_callbacks;
-
-				std::cout << "Received bad rest code from " << m_address << " code: " << resp.status_code
-					<< " reason: " << resp.reason;
-			}
-
-			if (resp.error) {
-				invoked_container = m_failure_callbacks;
-
-				std::cout << "Received error from " << m_address << "error: " << resp.error.message << "(" << static_cast<int>(resp.error.code) << ")"
-					<< std::endl;
-			}
-
-			for (const auto& f : invoked_container) {
-				f(resp.text);
-			}
-
+			return resp;
 		}
 	}
 }
